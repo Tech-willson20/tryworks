@@ -1,0 +1,75 @@
+public class Order {
+    // an array to hold the number of items ordered for each category. Index
+    // 0=cars,1=motocycles,2=bikes
+    int orderedItems[];
+
+    // a boolean to check if the free back has already been added to the order
+    boolean freeBikeAdded;
+
+    // this double holds the rental fee calculated to data based on items already added to the cart
+    double currentCalculateFee;
+
+    // default constructor to initialize order to 0 items each
+    public Order() {
+        orderedItems = new int[3];
+        orderedItems[0] = 0;
+        orderedItems[1] = 0;
+        orderedItems[2] = 0;
+        freeBikeAdded = false;
+        currentCalculateFee = 0;
+    }
+
+    // adds a car to the order and calculates the new total rental fee
+    public double addCarToOrder() {
+        int orderedCars = orderedItems[0];
+        int orderedMotors = orderedItems[1];
+        int orderedBikes = orderedItems[2];
+
+        if ((orderedCars >= 2) || (orderedCars == 1 && orderedMotors >= 2)) {
+            if (!freeBikeAdded) {
+                if (orderedBikes == 0) {
+                    orderedItems[2]++;
+                } else {
+                    currentCalculateFee -= 100;
+                }
+                freeBikeAdded = true;
+            }
+        }
+
+        orderedItems[0]++;
+        currentCalculateFee += 300;
+
+        return currentCalculateFee;
+    }
+
+    // adds a motorcycle to the order and calculates the new total rental fee
+    public double addMotorToOrder() {
+        int orderedCars = orderedItems[0];
+        int orderedMotors = orderedItems[1];
+        int orderedBikes = orderedItems[2];
+
+        if ((orderedCars == 1 && orderedMotors >= 2) || (orderedCars >= 2)) {
+            if (!freeBikeAdded) {
+                if (orderedBikes == 0) {
+                    orderedItems[2]++;
+                } else {
+                    currentCalculateFee -= 100;
+                }
+                freeBikeAdded = true;
+            }
+        }
+
+        orderedItems[1]++;
+        currentCalculateFee += 150;
+
+        return currentCalculateFee;
+    }
+
+    // adds a bike to the order and calculates the new total rental fee
+    public double addBikeToOrder() {
+        orderedItems[2]++;
+        currentCalculateFee += 100;
+
+        return currentCalculateFee;
+    }
+}
